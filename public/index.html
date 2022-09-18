@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bug Tracker App</title>
+    <link rel="icon" href="./img//debug-thumb.png" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script  src="https://chancejs.com/chance.min.js" defer></script>
+    <script type="module" src="./js/controller.js" defer></script>
+  </head>
+  <body>
+    <header class="main-header">
+      
+      <h1 class="header-name">       
+        Bug Tracker
+      </h1>
+      
+    </header>
+    <div class="content-container">
+    <div class="bug-form-container">
+      <form class="bug-form">
+        <fieldset class="form-fieldset">
+          <div class="button-container">
+            <button type="button" class="btn form-button"><legend>Add New Bug</legend></button>
+            <div class="log-btn-container">
+              <button type="button" class="btn login-button"><legend>Login</legend></button>
+              <a href='/user/logout' id="logout-button-container" ><button type="button" class="btn logout-button"><legend>Logout</legend></button></a>
+            </div>
+          </div>
+          
+          <div class="form-content-container animate hidden">
+          <div class="form-content">
+            <label for="bug-desc-input" >Description <span class="required">*</span></label>
+            <br>
+            <textarea
+              name="desc"
+              class="form-input desc-input"
+              id="bug-desc-input"
+              placeholder="Describe the bug"
+              required
+            ></textarea>
+          </div>
+          <div class="form-content">
+            <label for="bug-priority-input" >Priority <span class="required">*</span></label>
+            <br>
+            <select
+              id="bug-priority-input"
+              class="form-input priority-input"
+              name="priority"
+              required
+            >
+              <option selected disabled>--Please choose an option--</option>
+              <option value="Normal">Normal</option>
+              <option value="High">High</option>
+              <option value="Critical">Critical</option>
+            </select>
+          </div>
+          <div class="form-content">
+            <label for="bug-assign-input" >Assigned To <span class="required">*</span></label>
+            <br>
+            <select
+              class="form-input assign-input"
+              name="assignTo"
+              id="bug-assign-input"
+              placeholder="Assign to ..."
+              required
+            >
+            <option selected disabled id="assign-user-placeholder">--Please choose a User--</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-form-submit">Add</button>
+        </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="bug-list-container">
+      <ul class="bug-list"></ul>
+    </div>
+  </div>
+  <dialog class="login-modal animate">
+    <span class="close-modal" title="close modal">&times;</span>
+    <form class="modal-login-form " method="dialog">
+      <div class="login-container">
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" minlength="5" maxlength="16" required>
+        <br>
+        <label for="pword"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password"  minlength="5"  required>
+        <div class="modal-btn-container">
+          <a href="/login" id="login-container"><button type="submit" class="login-btn modal-btn">Login</button></a>
+          <a href="/user" id="create-user-container"><button type="submit" class="create-user-btn modal-btn">Create User</button></a>
+        </div>
+        <div class="modal-cancel-btn-container">
+          <button type="button" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+  <footer>
+    <p>&copy Bug Tracker App by Nathan Cruz  
+      <a
+      class="github-link"
+      target="_blank"
+      href="https://github.com/ncruz89"
+    >
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAAZlBMVEX///8bHyMAAAD6+voAAAgXGyASFxwAAAsAAAUABw8YHSHg4OBsbW4GDhR4eXrR0dHv7++enp+EhYZFR0kgIyakpKWNjo9MTU+1trYrLjLKyspiY2SsrK2YmJk8PkDDxMRZW1wzNTj8SMKAAAACvUlEQVRIiZWW2aKCIBBAZRQQDE0zl8qW///JCyIIhtKdpzAOMzBrkoSkGLpTPyI09qduKIJbAnIrATJBMJKCicgAylucSmsBgiNPuPxUp8dcDRSjgHAK9QFWtXmI0miOqj2ugaA2Ixia8O0u++oWyS+Bm56RiHEIifb8xQkS5xAiYkOm7U+cJFvf2ou2U7BdnrBly8V7T/0uoqnvEHpanMG97tj8O3fetgL9P6jFMAKfY41RynTkZeihDBz1kbD6E+kv5K2XDwBo7810vdbN6SMXS9A02liMDFcvDhSdeeKX8wLpzaTHI9P78uWgdDEUsaNwlPIyG0GfW1MDTsfgYECqNdgsEuUxWLNlIxdqeTPnIMyPwd46GVRmlzZGWUTjZFXMtoGxFI/HnKOSS48X9hh4xUBnb5EMmVHYxrgkeRuV2ZB05orW/QdiQkBtPpGfLXVsJaekN8kAPxTeswFxn4zoH6CNTv5J0H9AqxEhB9wtm2FwNP6HIQ5W1tRxfZxYbigZTOmVj2PdQfo4aONausMGgEnPIyE2A7s15BC9xjhbAlTIrYHLSQx8rgkpfbe+cCwf61UHuBeW5xwaO6wq5kReSgdW997pgLNcV06XDl2s2ChUKcg+O3NC1Tvc8hqTLI9MGvniRLXdz/QVtMX1CW43WsqjCnkuZDamc3PADOjTKc3DU37wmhg3Hq8ztejWPMXCjYVx2/pyeyxXmlQFeGjSD9vHZjZwitMc9HN5nkAQIvwMc3JJP6nz79xYc+XFoun7clN9/Ekr91ymWvlufURuj/ZbuR4e9kLOBbfDgx5Xsnew7jjg17giyVZaSwCfyvKO/FO5vWNgQDIjGSdCELoDZqGRLHGGQOb/jzW4NwQm89jJd8EMH9VPOeiqHPFBWWkwhUgRVKM1A/8bpSCmeCVLbt0mJ6vmh0b2s/wBcjkeJwpqfhsAAAAASUVORK5CYII="
+        alt="github"
+      /></p>
+  </footer>
+  </body>
+
+</html>
