@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const Bug = require('./bug');
 
 const userSchema = new mongoose.Schema(
   {
@@ -39,6 +38,7 @@ userSchema.virtual('bugs', {
   foreignField: 'owner', // name of field on task that creates relationship
 });
 
+// customizes express toJSON method to hide sensitive user data when sending user data back to client
 userSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
@@ -49,6 +49,7 @@ userSchema.methods.toJSON = function () {
   return userObject;
 };
 
+// custom method to generate Auth token using json web tokens
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
@@ -57,6 +58,7 @@ userSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
+// static method to check if username and encrypted password match database
 userSchema.statics.findByCredentials = async (username, password) => {
   const user = await User.findOne({ username });
   if (!user) throw new Error('Unable to login');
@@ -67,6 +69,7 @@ userSchema.statics.findByCredentials = async (username, password) => {
   return user;
 };
 
+// hashes the plain text password before saving. Only if it hasn't already been hashed.
 userSchema.pre('save', async function (next) {
   const user = this;
 

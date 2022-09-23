@@ -3,6 +3,7 @@ const User = require('../models/user');
 const auth = require('../middleware/auth');
 const router = new express.Router();
 
+// login users after checking if username and password match. returns user object and current auth token
 router.post('/login', async (req, res) => {
   try {
     const user = await User.findByCredentials(
@@ -17,9 +18,12 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// attempts to create new user based off of user object sent from client
+// creates auth token for new user and returns user object and auth token to client
 router.post('/user', async (req, res) => {
   try {
     const user = new User(req.body.user);
+
     await user.save();
 
     const token = await user.generateAuthToken();
@@ -30,6 +34,7 @@ router.post('/user', async (req, res) => {
   }
 });
 
+// attempts to logout user. finds and deletes matches auth token. saves updated user object and returns
 router.post('/user/logout', auth, async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter(
@@ -42,6 +47,7 @@ router.post('/user/logout', auth, async (req, res) => {
   }
 });
 
+// attempts to find all users created in database. returns users
 router.get('/users', async (req, res) => {
   try {
     const users = await User.find();

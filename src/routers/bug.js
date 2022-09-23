@@ -3,6 +3,7 @@ const Bug = require('../models/bug');
 const auth = require('../middleware/auth');
 const router = new express.Router();
 
+// posts new bug to database. sends bug back backt to client if successful
 router.post('', auth, async (req, res) => {
   const bug = new Bug({
     ...req.body.bug,
@@ -16,6 +17,7 @@ router.post('', auth, async (req, res) => {
   }
 });
 
+// gets all bugs from database. sends all bugs back to client
 router.get('/bugs', async (req, res) => {
   try {
     const bugs = await Bug.find();
@@ -25,6 +27,7 @@ router.get('/bugs', async (req, res) => {
   }
 });
 
+// deletes bug if owner ID of bug matches id of user who requests delete. sends back deleted bug data.
 router.delete('/bugs/:id', auth, async (req, res) => {
   try {
     const bug = await Bug.findOneAndDelete({
@@ -42,6 +45,8 @@ router.delete('/bugs/:id', auth, async (req, res) => {
   }
 });
 
+// router to change status of bug to 'closed'. Checks to see if assign to value of bug matches user requesting change.
+// if so returns updated bug to client.
 router.patch('/bugs/:id', auth, async (req, res) => {
   try {
     const bug = await Bug.findById({
