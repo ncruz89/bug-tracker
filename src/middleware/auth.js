@@ -4,7 +4,7 @@ const User = require('../models/user');
 /**
  *
  * authorization function that compares decoded activeUser token with user.token in database using json web tokens
- * if auth req goes well then proceeds middleware with next() to return to function that called the auth function
+ * if auth req goes well - proceeds middleware with next() to return to function that called the auth function
  */
 
 const auth = async (req, res, next) => {

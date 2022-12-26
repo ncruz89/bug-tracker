@@ -123,7 +123,7 @@ const deleteBug = async function (id) {
  *
  * inserts list items into bug lists in index.html
  *
- * @returns only if there aren't any bugs in the database yet.
+ * @returns exits function only if there aren't any bugs in the database yet.
  */
 const fetchBugs = async function () {
   const res = await fetch('/bugs', {
