@@ -47,6 +47,7 @@ router.delete('/bugs/:id', auth, async (req, res) => {
 
 // router to change status of bug to 'closed'. Checks to see if assign to value of bug matches user requesting change.
 // if so returns updated bug to client.
+
 router.patch('/bugs/:id', auth, async (req, res) => {
   try {
     const bug = await Bug.findById({
